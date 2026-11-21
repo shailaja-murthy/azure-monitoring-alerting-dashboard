@@ -1,0 +1,17 @@
+
+variable "subscription_id" {
+  description = "Azure subscription ID"
+  type        = string
+}
+
+variable "location" {
+  description = "Azure region"
+  type        = string
+  default     = "westus2"
+}
+
+variable "resource_group_name" {
+  description = "Name of the monitoring resource group"
+  type        = string
+  default     = "rg-azure-monitoring"
+}
