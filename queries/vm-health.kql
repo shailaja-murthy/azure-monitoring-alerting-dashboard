@@ -1,0 +1,29 @@
+
+// 1. Check CPU utilization of virtual machines
+Perf
+| where TimeGenerated > ago(24h)
+| where ObjectName == "Processor"
+| where CounterName == "% Processor Time"
+| where InstanceName == "_Total"
+| summarize AvgCPU = avg(CounterValue) by Computer, bin(TimeGenerated, 1h)
+| order by TimeGenerated desc
+
+// 2. Check available memory
+Perf
+| where TimeGenerated > ago(24h)
+| where ObjectName == "Memory"
+| where CounterName == "Available MBytes"
+| summarize AvgAvailableMemoryMB = avg(CounterValue) by Computer
+
+// 3. Find VM heartbeat status
+Heartbeat
+| summarize LastHeartbeat = max(TimeGenerated) by Computer
+| extend Status = iff(LastHeartbeat > ago(5m), "Healthy", "No recent heartbeat")
+| project Computer, LastHeartbeat, Status
+
+// 4. Check recent VM errors
+Event
+| where TimeGenerated > ago(24h)
+| where EventLevelName == "Error"
+| project TimeGenerated, Computer, Source, EventID, RenderedDescription
+| order by TimeGenerated desc
