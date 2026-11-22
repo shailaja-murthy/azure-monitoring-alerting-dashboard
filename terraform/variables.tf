@@ -15,3 +15,8 @@ variable "resource_group_name" {
   type        = string
   default     = "rg-azure-monitoring"
 }
+
+variable "admin_ssh_public_key" {
+  description = "SSH public key for the VM administrator"
+  type        = string
+}
