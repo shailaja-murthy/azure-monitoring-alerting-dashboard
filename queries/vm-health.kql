@@ -1,32 +1,26 @@
 
-// QUERY 1: Check average CPU utilization
-Perf
-| where TimeGenerated > ago(24h)
-| where ObjectName == "Processor"
-| where CounterName == "% Processor Time"
-| where InstanceName == "_Total"
-| summarize AvgCPU = avg(CounterValue) by Computer, bin(TimeGenerated, 1h)
-| order by TimeGenerated desc
-
-
-// QUERY 2: Check available memory
-Perf
-| where TimeGenerated > ago(24h)
-| where ObjectName == "Memory"
-| where CounterName == "Available MBytes"
-| summarize AvgAvailableMemoryMB = avg(CounterValue) by Computer
-
-
-// QUERY 3: Check VM heartbeat status
-Heartbeat
-| summarize LastHeartbeat = max(TimeGenerated) by Computer
-| extend Status = iff(LastHeartbeat > ago(5m), "Healthy", "No recent heartbeat")
-| project Computer, LastHeartbeat, Status
-
-
-// QUERY 4: Check recent Linux system errors
+//
+// 1. Linux system log monitoring
+//
 Syslog
 | where TimeGenerated > ago(24h)
-| where SeverityLevel in ("err", "crit", "alert", "emerg")
-| project TimeGenerated, Computer, SeverityLevel, Facility, ProcessName, SyslogMessage
+| project TimeGenerated,
+          Computer,
+          HostName,
+          ProcessName,
+          SeverityLevel,
+          SyslogMessage
 | order by TimeGenerated desc
+
+//
+// 2. Virtual machine heartbeat monitoring
+//
+Heartbeat
+| where TimeGenerated > ago(1h)
+| summarize LastHeartbeat = max(TimeGenerated) by Computer
+| extend Status = iff(
+    LastHeartbeat > ago(5m),
+    "Healthy",
+    "No recent heartbeat"
+)
+| project Computer, LastHeartbeat, Status
