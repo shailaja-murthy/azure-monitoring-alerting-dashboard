@@ -1,47 +1,38 @@
-# Azure Monitoring and Alerting Dashboard
+# Azure Monitoring and Alerting
 
-## Overview
+## Project Overview
 
-This project focuses on monitoring Azure infrastructure and checking the health of Linux virtual machines.
+This project involved setting up monitoring for an Azure Linux virtual machine and checking its health using Azure monitoring services.
 
-Azure Monitor and Log Analytics are used to collect and review system logs. KQL queries help analyse the collected data and check whether the virtual machine is sending heartbeat information correctly.
+I worked with Azure Monitor and Log Analytics to collect Linux system logs, check VM heartbeat information and configure CPU usage alerts with email notifications. Terraform was used for infrastructure configuration, and GitHub Actions was used to automate code validation.
 
-## Technologies Used
+## Tools and Technologies
 
 - Microsoft Azure
-- Azure Virtual Machines (Linux)
+- Linux Virtual Machine
 - Azure Monitor
-- Log Analytics Workspace
+- Log Analytics
 - Azure Monitor Agent (AMA)
 - Data Collection Rules (DCR)
-- Kusto Query Language (KQL)
+- KQL
+- Azure Monitor Alerts
 - Terraform
 - GitHub Actions
 
-## Key Features
+## Work Completed
 
-- Created Azure infrastructure, including a virtual network, subnet, network security group, and Linux virtual machine.
-- Configured a Log Analytics workspace to collect monitoring data.
-- Set up Azure Monitor Agent and Data Collection Rules for Linux log collection.
-- Collected and analysed Linux Syslog data.
-- Created KQL queries to review system logs and monitor VM heartbeat status.
-- Verified that the virtual machine was sending heartbeat data successfully.
-- Created Terraform configuration files to define Azure infrastructure.
+- Created the Azure resource group, virtual network, subnet, network security group and Linux virtual machine.
+- Configured Azure Monitor Agent to collect monitoring data from the Linux VM.
+- Created a Data Collection Rule for collecting Linux Syslog events.
+- Connected the VM monitoring data to Log Analytics.
+- Used KQL queries to check system logs and VM heartbeat information.
+- Configured an Azure Monitor alert for high CPU usage and email notifications.
+- Created Terraform configuration files for managing Azure infrastructure.
+- Set up a GitHub Actions workflow to check Terraform formatting and validate configuration changes.
 
-## Monitoring Queries
+## Project Files
 
-KQL queries are available in the `queries` folder.
-
-The queries are used to:
-- View Linux system logs.
-- Check virtual machine heartbeat status.
-- Identify whether the VM is sending monitoring data.
-
-**Query file:** `queries/vm-health.kql`
-
-## Repository Structure
-
-```text
+Text
 azure-monitoring-alerting-dashboard/
 │
 ├── .github/
@@ -62,6 +53,22 @@ azure-monitoring-alerting-dashboard/
 ├── .gitignore
 └── README.md
 ```
+## Terraform Commands
+
+The Terraform configuration is available in the `terraform` folder.
+
+```bash
+terraform init
+terraform fmt
+terraform validate
+terraform plan
+```
+
+Review the plan before applying any changes to Azure.
+
+## Screenshots
+
+The screenshots folder is used to show the Azure setup, Log Analytics results, VM heartbeat monitoring, CPU alert configuration, email notifications and GitHub Actions results.
 
 ## What I Learned
 
